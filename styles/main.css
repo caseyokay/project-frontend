@@ -1,0 +1,29 @@
+body {
+    background-color: beige;
+    display: grid;
+    grid-template-areas: 
+    "header header"
+    "nav main"
+    ;
+}
+
+ul {
+    padding: 0;
+}
+
+header{
+    grid-area: header;
+    border: 2px solid red;
+
+}
+
+nav{
+    grid-area: nav;
+    border: 2px solid blue;
+
+}
+
+main{
+    grid-area: main;
+    border: 2px solid green;
+}
