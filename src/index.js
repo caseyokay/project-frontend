@@ -46,7 +46,18 @@ bouqNoteForm.addEventListener('submit', event => {
     
     console.log(noteValue)
 
-    fetch(fromURL, {}).then(response => response.json()).then(console.log)
+    // fetch(fromURL, {}).then(response => response.json()).then(console.log)
+})
+
+
+flowersInBouquet.addEventListener('click', event => {
+    event.preventDefault()
+
+    if (event.target.matches("button")) {
+        // remove the flower from the page!
+        deleteFlowerfromBouquet(event.target.dataset.id)
+        event.target.parentElement.remove()
+      }
 })
 
 
@@ -116,9 +127,25 @@ const addFlowersToBouquet = (bouquet) => {
 
 const addOneFlowerToBouquet = (flower) => {
     // (bouquet, flower) - once working with more than one 
+
     const li = document.createElement("li")
-    li.textContent = flower.name + ": " + flower.description
-    flowersInBouquet.append(li)
+    li.textContent = "💐 " + flower.name + ": " + flower.description
+    /*
+     Eventually change Li to Div Tag
+        Div 
+            -> Image Tag
+            -> { Some Inner Text }
+
+     const li = document.createElement("div")
+    */
+   
+
+
+    const button = document.createElement("button")
+    button.textContent = "X"
+    button.dataset.id = flower.id
+
+    flowersInBouquet.append(li, button)
     // Want to change name?
 
     // We will eventually need a dataset association 
@@ -174,5 +201,15 @@ const getBouquet = (id) => {
     .then(r => r.json())
     .then(renderBouquetFlowers)
 }
+getBouquet(3)
+//        (currentBouquet)
 
-getBouquet()
+//This will delete the from the database! not an instance of FlowerBouquet 
+const deleteFlowerfromBouquet = (id) => {
+    fetch(`http://localhost:3000/flowers/${id}`, {
+      method: "DELETE"
+    })
+    .then(r => r.json())
+    .then(console.log)
+  }
+  
