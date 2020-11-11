@@ -1,7 +1,13 @@
-// const renderFlower = flower => {
+const BASEURL = "http://localhost:3000/api/v1"
+//const renderFlower = flower => {
 //     const img = document.querySelector("bouquet-img")
 
 // }
+
+//add a drop down form that shows the flower options based on 
+//description. allow the user to add flowers to their bouquet based on
+// selection.
+// after the selection run it through renderBouquet
 
 const renderBouquet = bouquet => {
     //add a form and set the message based on user input
@@ -15,9 +21,11 @@ const renderBouquet = bouquet => {
     })
 }
 
+//** http://localhost:3000/api/v1/flowers
+//** http://localhost:3000/api/v1/bouquets
 
 const getFlower = () => {
-    fetch("http://localhost:3000/api/v1/flowers/1")
+    fetch('${BASEURL}/flowers/1')
     .then(r => r.json())
     .then(console.log)
 }

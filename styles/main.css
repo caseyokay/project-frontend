@@ -1,11 +1,26 @@
-body {
+/* body {
     background-color: beige;
     display: grid;
     grid-template-areas: 
     "header header"
     "nav main"
     ;
-}
+} */
+
+
+body {
+    background-color: beige;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-areas: 
+      "header header"
+      "nav main";
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 80px 1fr;
+    row-gap: 10px;
+    column-gap: 15px;
+  }
 
 ul {
     padding: 0;
