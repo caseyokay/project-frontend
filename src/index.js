@@ -6,7 +6,7 @@
 
 const FLOWERS_URL = "http://localhost:3000/api/v1/flowers"
 const BOUQUETS_URL = "http://localhost:3000/api/v1/bouquets"
-const FLOWER_BOUQUETS_URL = "http://localhost:3000/api/v1/flower_bouquets"
+// const FLOWER_BOUQUETS_URL = "http://localhost:3000/api/v1/flower_bouquets"
 
 
 /******** DOM Elements ********/
@@ -81,6 +81,8 @@ const renderOption = (flower) => {
     option.value = flower.id
     selectFlower.append(option)
   }
+
+//**** Render Flower Nav Links *****/
   
 const renderNavLink = (flower) => {
     const button = document.createElement('button')
@@ -107,7 +109,13 @@ const renderNavLink = (flower) => {
     console.log(li)
     navList.innerHTML =''
     navList.append(li)
-
+    
+    const closeButton = navList.querySelector(".close-button")
+        closeButton.addEventListener("click", () => {
+        console.log("CLOSE")
+        navList.innerHTML =''
+        getAllFlowers()
+        })
 //   getFlower(flower.id)
 })
 
@@ -118,9 +126,14 @@ const renderNavLink = (flower) => {
 
 
 // renderBouquetInstanceToBuilding
-const renderBouquetFlowers = bouquet => {
+const renderBouquetFlowers = (bouquet) => {
 
     noteArea.value = bouquet.note
+    
+    addFlowersToBouquet(bouquet)
+
+
+
 
 
     
@@ -151,15 +164,28 @@ const renderBouquetFlowers = bouquet => {
 
 // Bouquets that are already made 
 const addFlowersToBouquet = (bouquet) => {
+
         bouquet.flowers.forEach(flower => {
+
+
+            // addFlowersToBouquet(flower, bouquet.id)
+            
+            
             const li = document.createElement("li")
-            li.textContent = flower.name + ": " + flower.description
-            flowersInBouquet.append(li)
+            li.textContent =  "💐 " + flower.name + ": " + flower.description
+
+            const button = document.createElement("button")
+            button.textContent = "X"
+            button.dataset.id = flower.id
+        
+            flowersInBouquet.append(li, button)
+
+
         })
 }
 
-const addOneFlowerToBouquet = (bouquet, flower) => {
-    //                        (bouquet, flower) - once working with more than one 
+const addOneFlowerToBouquet = (flower, bouquet) => {
+    //                        (flower, bouquet) - once working with more than one 
 
     const li = document.createElement("li")
     li.textContent = "💐 " + flower.name + ": " + flower.description
@@ -183,16 +209,17 @@ const addOneFlowerToBouquet = (bouquet, flower) => {
 
     // const XXId = parentDivORTAGXX.dataset.id; 
 
-    const destURL = FLOWER_BOUQUET_URL //+ `/${flower.id}`; 
+    const destURL = "http://localhost:3000/api/v1/flower_bouquets"
+    //FLOWER_BOUQUETS_URL //+ `/${flower.id}`; 
     console.log(destURL);    
 
-    fetch(destURL, { 
+    fetch("http://localhost:3000/api/v1/flower_bouquets", { 
           method: 'POST',
           headers: { "Content-Type" : "application/json", "Accept" : "application/json" },    
           body: JSON.stringify({ 
               
             flower_id: flower.id,
-            bouquet_id: bouquet.id
+            bouquet_id: bouquet
              
           }) 
           //console.log("BIGBODYJASON")
@@ -200,6 +227,7 @@ const addOneFlowerToBouquet = (bouquet, flower) => {
     .then(response => response.json())    
     /* .then(console.log) */
     .then(/* makeThisChange => */  console.log('FRONT-END CHANGES')  /* // == Display == // */ )
+    
     // We will eventually need a dataset association 
     // For presistist Bouquet changes
     // BACKEND - DATABASE 
@@ -240,7 +268,7 @@ getAllFlowers()
 //  **  Necessary for page load - All Flowers to choose from
 
 
-const getOneFlower = (flowerID, bouquetID) => { //  PREVIOUSLY:JUST:: (flowerID)
+const getOneFlower = (flowerID, bouquetID) => { //  PREVIOUSLY:JUST:: (flowerID, bouquetID)
     fetch(`http://localhost:3000/api/v1/flowers/${flowerID}`)
     .then(r=> r.json())
     .then(flower => { addOneFlowerToBouquet(flower, bouquetID) }) // (flower, bouquetID)
