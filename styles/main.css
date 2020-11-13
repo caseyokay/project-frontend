@@ -17,7 +17,7 @@ body {
       "header header"
       "nav main";
     grid-template-columns: 300px 1fr;
-    grid-template-rows: 80px 1fr;
+    grid-template-rows: 100px 1fr;
     row-gap: 10px;
     column-gap: 15px;
   }

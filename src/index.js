@@ -4,6 +4,11 @@
 // }
 
 
+const FLOWERS_URL = "http://localhost:3000/api/v1/flowers"
+const BOUQUETS_URL = "http://localhost:3000/api/v1/bouquets"
+const FLOWER_BOUQUETS_URL = "http://localhost:3000/api/v1/flower_bouquets"
+
+
 /******** DOM Elements ********/
 
 const selectFlower = document.querySelector("#flower_id")
@@ -11,6 +16,7 @@ const navList = document.querySelector("#flower-links")
 const flowersInBouquet = document.querySelector("#current-bouquet-flowers")
 
 const bouqNoteForm = document.querySelector('.bouquet-note')
+const noteArea = document.querySelector('.note-value')
 const addFlowerForm = document.querySelector('#flowerbouquet-addition-form'); 
 
 
@@ -18,35 +24,39 @@ const addFlowerForm = document.querySelector('#flowerbouquet-addition-form');
 
 addFlowerForm.addEventListener('submit', event => {
     event.preventDefault()
-    //make a const here of Flower object that we are assigning to a bouquet 
     flowerId = event.target.flower_id.value
-    const flowerObj = getOneFlower(flowerId)
-    console.log(flowerObj)
+    
+    //make a const here of Flower object that we are assigning to a bouquet 
+    const flowerObj = getOneFlower(flowerId, 3) //  (3) = bouquetID
+          //console.log(flowerObj)
+    
+    
     // addOneFlowerToBouquet(flowerObj)
     
+
     //create an instance of FlowerBouquet, assinging the flower_id as flowerObj
 
-    // const liForNewFlower = document.createElement('li')
-    //       liForNewFlower.innerText = "💐" + flowerObj
-    // flowersInBouquet.append(liForNewFlower)
 
     //getOneFlower()
     // addOneFlowerToBouquet()
 
 
-
-
-    // fetch(fromURL, {}).then(response => response.json()).then(console.log)
 })
 
 
 bouqNoteForm.addEventListener('submit', event => {
     event.preventDefault()
-    const noteValue = document.querySelector('.note-value').value; 
+    const noteValue = noteArea.value; 
     
     console.log(noteValue)
-
-    // fetch(fromURL, {}).then(response => response.json()).then(console.log)
+    // build out a renderNote(noteValue) function
+    // make a POST req//
+    // const newNoteObj = {
+    //     newNoteValue: newNoteObj,
+    //     BouquetId: 3
+    // }
+    // updateBouquetNote(newNoteObj)
+    updateBouquetNote(noteValue)
 })
 
 
@@ -73,26 +83,49 @@ const renderOption = (flower) => {
   }
   
 const renderNavLink = (flower) => {
+    const button = document.createElement('button')
+    button.setAttribute("id", `flower-button-${flower.id}`)
+    button.textContent = flower.name
+    
+    button.addEventListener("click", () => {
+    //iterate through the flower, create a card
+    //potentailly use toggle to show and hide the information
+    // 
+    console.log(`${flower.name}: ${flower.id}`)
     const li = document.createElement("li")
-    li.textContent = flower.name
-    li.addEventListener("click", () => {
-        console.log("LINK TO FLOWER")
+    li.className = "card"
+    li.innerHTML = `
+    <div class="flower-image">
+        <img src=${flower.image_url} alt=${flower.name} style="max-width: 200px";>
+        <button class="close-button">X</button>
+    </div>
+    <div class="flower-content">
+        <h4>${flower.name}</h4>
+        <p class="flower-description">${flower.description}</p>
+    </div>
+    `
+    console.log(li)
+    navList.innerHTML =''
+    navList.append(li)
 
-    //   getFlower(flower.id)
-    })
-navList.append(li)
+//   getFlower(flower.id)
+})
+
+    navList.append(button)
 }
   
-
 
 
 
 // renderBouquetInstanceToBuilding
 const renderBouquetFlowers = bouquet => {
 
+    noteArea.value = bouquet.note
 
+
+    
     //add a form and set the message based on user input
-    flowersInBouquet.innerHTML = ""
+    // flowersInBouquet.innerHTML = ""
     // !! FUCNTION: clearing flowers 
 
 
@@ -125,8 +158,8 @@ const addFlowersToBouquet = (bouquet) => {
         })
 }
 
-const addOneFlowerToBouquet = (flower) => {
-    // (bouquet, flower) - once working with more than one 
+const addOneFlowerToBouquet = (bouquet, flower) => {
+    //                        (bouquet, flower) - once working with more than one 
 
     const li = document.createElement("li")
     li.textContent = "💐 " + flower.name + ": " + flower.description
@@ -140,7 +173,6 @@ const addOneFlowerToBouquet = (flower) => {
     */
    
 
-
     const button = document.createElement("button")
     button.textContent = "X"
     button.dataset.id = flower.id
@@ -148,6 +180,26 @@ const addOneFlowerToBouquet = (flower) => {
     flowersInBouquet.append(li, button)
     // Want to change name?
 
+
+    // const XXId = parentDivORTAGXX.dataset.id; 
+
+    const destURL = FLOWER_BOUQUET_URL //+ `/${flower.id}`; 
+    console.log(destURL);    
+
+    fetch(destURL, { 
+          method: 'POST',
+          headers: { "Content-Type" : "application/json", "Accept" : "application/json" },    
+          body: JSON.stringify({ 
+              
+            flower_id: flower.id,
+            bouquet_id: bouquet.id
+             
+          }) 
+          //console.log("BIGBODYJASON")
+    })
+    .then(response => response.json())    
+    /* .then(console.log) */
+    .then(/* makeThisChange => */  console.log('FRONT-END CHANGES')  /* // == Display == // */ )
     // We will eventually need a dataset association 
     // For presistist Bouquet changes
     // BACKEND - DATABASE 
@@ -165,8 +217,7 @@ const addOneFlowerToBouquet = (flower) => {
 
 
 
-//** http://localhost:3000/api/v1/flowers
-//** http://localhost:3000/api/v1/bouquets
+
 
 
 
@@ -186,12 +237,13 @@ const getAllFlowers = () => {
     // const flower.dataset = flower.id
 }
 getAllFlowers()
+//  **  Necessary for page load - All Flowers to choose from
 
 
-const getOneFlower = (id) => {
-    fetch(`http://localhost:3000/api/v1/flowers/${id}`)
+const getOneFlower = (flowerID, bouquetID) => { //  PREVIOUSLY:JUST:: (flowerID)
+    fetch(`http://localhost:3000/api/v1/flowers/${flowerID}`)
     .then(r=> r.json())
-    .then(flower => { addOneFlowerToBouquet(flower) })
+    .then(flower => { addOneFlowerToBouquet(flower, bouquetID) }) // (flower, bouquetID)
 }
 
 
@@ -203,6 +255,8 @@ const getBouquet = (id) => {
 }
 getBouquet(3)
 //        (currentBouquet)
+//  **  Necessary for page load - Get current Bouquet and all of its flowers
+
 
 //This will delete the from the database! not an instance of FlowerBouquet 
 const deleteFlowerfromBouquet = (id) => {
@@ -213,3 +267,17 @@ const deleteFlowerfromBouquet = (id) => {
     .then(console.log)
   }
   
+//
+const updateBouquetNote = (newNoteValue) => {
+    fetch(`http://localhost:3000/api/v1/bouquets/3`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            note: newNoteValue
+        })
+    })
+    .then(r=> r.json())
+    .then(console.log)
+}
