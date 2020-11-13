@@ -58,13 +58,25 @@ flowersInBouquet.addEventListener('click', event => {
     event.preventDefault()
 
     if (event.target.matches("button")) {
-        
+        event.target.parentElement.remove()
+
+        let deleteId = event.target.dataset.id
+        console.log(deleteId)
+
+        deleteFlowerFromBouquet(deleteId)            
+
+
         // remove the flower from the page!
         // deleteFlowerFromBouquet(event.target.dataset.id)
         //  deleteFlowerFromBouquet(event.target.dataset.id)
 
-        event.target.remove()
-        // event.target.parentElement.remove()
+        // var element = document.getElementById('myDivID');
+        // var dataID = element.getAttribute('data-id');
+
+        // const liToRemove = flowersInBouquet.getElementById('#data-id' = 1)
+        //event.target.remove()
+        // flowersInBouquet.removeChild(event.target.dataset.id)
+
       }
 })
 
@@ -83,10 +95,12 @@ const renderOption = (flower) => {
 //**** Render Flower Nav Links *****/
   
 const renderNavLink = (flower) => {
+    // const navLi = document.createElement("li")
+    // navLi.setAttribute("id", `nav-flower-link`)
     const button = document.createElement('button')
-    button.setAttribute("id", `flower-button-${flower.id}`)
-
+    button.setAttribute("id", `flower-button`)
     button.textContent = flower.name
+    // navLi.append(button)
     
     button.addEventListener("click", () => {
     //iterate through the flower, create a card
@@ -124,18 +138,14 @@ const renderNavLink = (flower) => {
 
 
 
-// 🌟💫💫💫💫💫💫💫💫💫💫
+// 🌟💫💫💫💫💫💫💫💫💫💫         *** MIGHT HAVE BEEN THE ERROR THE WHOLE TIME!!
 
 // renderBouquetInstanceToBuilding
 const renderBouquetFlowers = (bouquet) => {
 
     noteArea.value = bouquet.note
     
-    addFlowersToBouquet(bouquet)
-
-
-
-
+    //    addFlowersToBouquet(bouquet)
 
     
     //add a form and set the message based on user input
@@ -149,14 +159,16 @@ const renderBouquetFlowers = (bouquet) => {
         // selection.
         // after the selection run it through renderBouquet
 
-    // addFlowersToBouquet(flower)
-
 
     // Remove Flower Option
     // 
 
 
 }
+
+
+
+
 // FUCNTION: clearing flowers 
 //           flowersInBouquet.innerHTML = ""
 
@@ -166,29 +178,39 @@ const renderBouquetFlowers = (bouquet) => {
 // Bouquets that are already made 
 const addFlowersToBouquet = (bouquet) => {
 
-        bouquet.flowers.forEach(flower => {
+    // addOneFlowerToBouquet(flower, bouquet)
+
+        console.log("!!!!")
+        // bouquet.flower_bouquets.forEach(flower_bouquet => {
+
+        //     getOneFlower(flower_bouquet.flower_id, flower_bouquet.bouquet_id)
+
+        // })
 
 
-            // addFlowersToBouquet(flower, bouquet.id)
-            
-            
-            const li = document.createElement("li")
-            li.textContent =  "✨💐 " + flower.name + ": " + flower.description
+        // bouquet.flowers.forEach(flower => {
 
-            const button = document.createElement("button")
-            button.textContent = "x"
-            button.dataset.id = flower.id
-                  li.prepend(button)
-            // LIKELEY DELETE ====> button.dataset.id = flower.id
+ 
+        //     const li = document.createElement("li")
+        //     li.setAttribute("id", `${flower.id}`)
+        //     li.textContent =  "✨💐 " + flower.name + ": " + flower.description
+
+        //     const button = document.createElement("button")
+        //     button.textContent = "x"
+        //     button.dataset.id = flower.id
+        //           li.prepend(button)
+        //     // LIKELEY DELETE ====> button.dataset.id = flower.id
         
-            flowersInBouquet.append(li)
+        //     flowersInBouquet.append(li)
+        // })
 
 
-        })
+
+
 }
 
 
-    let idForDatasetForXbuttonTracker = 0
+let idForDatasetForXbuttonTracker 
 const addOneFlowerToBouquet = (flower, bouquet) => {
     //                        (flower, bouquet) - once working with more than one 
 
@@ -208,37 +230,45 @@ const addOneFlowerToBouquet = (flower, bouquet) => {
           //console.log("BODY")  ////  (Save Point🌀💫)
     })
     .then(response => response.json())    
-    .then(/* makeThisChange => */  console.log('FRONT-END CHANGES - If Any')  /* // == Display == // */ )
+    .then(flowBouObj => { 
+     //console.log("PLEASE ID::::", flowBouObj.id) 
+         idForDatasetForXbuttonTracker = flowBouObj.id
+
+
+         const li = document.createElement("li")
+         li.setAttribute("id", `${idForDatasetForXbuttonTracker}`)
+         //  X  ::  li.setAttribute("id", `${flower.id}`)
+         li.textContent = "✨💐 " + flower.name + ": " + flower.description
+         /*
+          Eventually change Li to Div Tag: For cute cirle displays
+             Div 
+                 -> Image Tag
+                 -> { Some Inner Text }
+     
+          const div = document.createElement("div")
+         */
+        
+         const button = document.createElement("button")
+         button.textContent = "x"
+         button.dataset.id = idForDatasetForXbuttonTracker
+         //  X  ::  button.dataset.id = flower.id
+               li.prepend(button)
+         flowersInBouquet.append(li)
+     
+
+
+
+    })
     //.then(console.log)  ////  (Save Point🌀💫)
 
-
-    fetch("http://localhost:3000/api/v1/flower_bouquets").then(response => response.json())
-    .then(flowBouArray => { 
-        
-        let lastElement = (flowBouArray.length - 1)
-        idForDatasetForXbuttonTracker = flowBouArray[lastElement].id 
-        //console.log(flowBouArray[lastElement].id)  ////  (Save Point🌀💫)
-    
-    })
     console.log("PLEASE! :", idForDatasetForXbuttonTracker)
- 
 
-    const li = document.createElement("li")
-    li.textContent = "✨💐 " + flower.name + ": " + flower.description
-    /*
-     Eventually change Li to Div Tag: For cute cirle displays
-        Div 
-            -> Image Tag
-            -> { Some Inner Text }
+    //     let lastElement = (flowBouArray.length - 1)
+    //     idForDatasetForXbuttonTracker = flowBouArray[lastElement].id 
 
-     const div = document.createElement("div")
-    */
-   
-    const button = document.createElement("button")
-    button.textContent = "x"
-    button.dataset.id = flower.id
-          li.prepend(button)
-    flowersInBouquet.append(li)
+
+
+
 
 
 
@@ -295,7 +325,15 @@ const getBouquet = (id) => {
     //             (id) - Eventually taking in an id 
     fetch(`http://localhost:3000/api/v1/bouquets/${id}`)
     .then(r => r.json())
-    .then(renderBouquetFlowers)
+    .then(bouquetObj => {
+
+        bouquetObj.flowers.forEach(flower => {
+            
+            getOneFlower(flower.id, bouquetObj.id)
+
+        });
+    })
+    //  .then(renderBouquetFlowers)
 }
 getBouquet(3)
 //getBouquet(currentBouquet)
@@ -305,7 +343,8 @@ getBouquet(3)
 */
 
 const getFlowerBouquetsForCurrentBouquet = (currentBouquet) => {
-    //                                     (id) - DOING IT! Currently Taking in an ID  ||  Eventually taking in an id 
+    //                                     (id) - DOING IT! Currently Taking in an ID  ||  Eventually taking in an id
+     
     fetch("http://localhost:3000/api/v1/flower_bouquets")
     .then(r => r.json())
     .then(flowBouArray => {
@@ -394,6 +433,8 @@ const updateBouquetNote = (newNoteValue) => {
     // // taking in the UL -> "current-bouquet-flowers"
     //         // flower.remove
     //  }
+
+
 
 
 

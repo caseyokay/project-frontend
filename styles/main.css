@@ -72,18 +72,34 @@ li{
     margin: 10px;
     vertical-align: middle;
 } */
-h4,h1,img{
+h4,h1, h5, img{
     text-align: center;
 }
 
 #flower-links{
     list-style-type: none;
     padding-top: 10px;
-    float: left;
+    /* text-align: center; */
+    /* float: left; */
     width: 30%;
+    /* display: grid */
+    display: inline-block;
+    vertical-align: middle;
     height: 300px;
   }
+
+#flower-button{
+    display: inline-block;
+    vertical-align: middle;
+}
 
   #current-bouquet-flowers{
     list-style-type: none;
 } 
+
+#bouquet-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }

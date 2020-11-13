@@ -30,13 +30,14 @@
 
     <!-------------MAIN ------------------>
     <main>
-        <img id="bouquet-img" src = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.flyingflowers.co.uk%2Fff_images%2Fproduct%2F8466%2FFC93621F.jpg%3Fproduct&f=1&nofb=1" alt="bouquet" style="max-width: 500px";>
-        <h1 id="bouquet-title" style="color:SlateBlue;">Build your Bouquet!</h1>
+        <img id="bouquet-img" src = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.flyingflowers.co.uk%2Fff_images%2Fproduct%2F8466%2FFC93621F.jpg%3Fproduct&f=1&nofb=1" alt="bouquet" style="max-width: 500px" class="center";>
+        <h1 id="bouquet-title" style="color:SlateBlue;">Build your Bouquet Using Floriography!</h1>
+        <h5 style="color:Violet;">Floriography (language of flowers) is a means of cryptological communication through the use or arrangement of flowers. Meaning has been attributed to flowers for thousands of years, and some form of floriography has been practiced in traditional cultures throughout Europe, Asia, and Africa. </h3>
         <div id="add-flower">
 
             <form id="flowerbouquet-addition-form" autocomplete="off">
 
-                <h4 style="color:cornflowerblue;">Add a New Flower to Your Bouquet</h4>
+                <h3 style="color:cornflowerblue;">Add a New Flower to Your Bouquet</h4>
                 <label for="flower_id" style="color:dodgerblue;">Flower Meaning:</label>
                 <br>
                 <select meaning="flower_id" id="flower_id">
@@ -49,7 +50,7 @@
 
         </div>
         <div id="bouquet-info">
-          <p style="color:dodgerblue;">Attach a note for your bouquet below:</p>  
+          <p id="note-holder" style="color:dodgerblue;">Attach a note for your bouquet below:</p>  
           <form class="bouquet-note">
             <textarea class="note-value">Bouquet note goes here</textarea>
             <button>Update Note</button>
