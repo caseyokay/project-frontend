@@ -8,10 +8,14 @@
     <title>Project Bouquet</title>
 </head>
 <body>
+    <!-------------HEADER ------------------>
     <header>
-        <h2>Build a Bouquet Using 🌿✨The Language of Flowers✨🌿🌻🌼🌸🌹🌷💐🌾</h2>
+        <h2 style="color:mediumslateblue;">Build a Bouquet Using 🌿✨The Language of Flowers✨🌿🌻🌼🌸🌹🌷💐🌾</h2>
     </header>
+
+    <!-------------NAV ------------------>
     <nav>
+        <h4 style="color:Violet;">🌸FLOWERS🌸 </h4>
         <ul id="flower-links">
             <!-- <il>Flower Link</il>
             <il>Flower Link</il>
@@ -23,17 +27,18 @@
 
         </ul>
     </nav>
+
+    <!-------------MAIN ------------------>
     <main>
         <img id="bouquet-img" src = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.flyingflowers.co.uk%2Fff_images%2Fproduct%2F8466%2FFC93621F.jpg%3Fproduct&f=1&nofb=1" alt="bouquet" style="max-width: 500px";>
-        <h1 id="bouquet-title">Build your Bouquet!</h1>
+        <h1 id="bouquet-title" style="color:SlateBlue;">Build your Bouquet!</h1>
         <div id="add-flower">
-
 
             <form id="flowerbouquet-addition-form" autocomplete="off">
 
-                <h4>Add a New Flower to Your Bouquet</h4>
-                <label for="flower_id">Flower Meaning:</label>
-               
+                <h4 style="color:cornflowerblue;">Add a New Flower to Your Bouquet</h4>
+                <label for="flower_id" style="color:dodgerblue;">Flower Meaning:</label>
+                <br>
                 <select meaning="flower_id" id="flower_id">
                 </select>
 
@@ -44,7 +49,7 @@
 
         </div>
         <div id="bouquet-info">
-          <p>Attach a note for your bouquet below:</p>  
+          <p style="color:dodgerblue;">Attach a note for your bouquet below:</p>  
           <form class="bouquet-note">
             <textarea class="note-value">Bouquet note goes here</textarea>
             <button>Update Note</button>
@@ -52,7 +57,7 @@
 
         </div>
         <hr />
-        <h3>Selected Flowers:</h3>
+        <h3 style="color:Violet;">Selected Flowers</h3>
         <ul id="current-bouquet-flowers">
         <!-- HERE IS WHERE NEW FLOWERS GO! -->
         </ul>
